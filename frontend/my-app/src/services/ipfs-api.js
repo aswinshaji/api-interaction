@@ -10,7 +10,17 @@ class ipfsapi {
         return axios.post(FETCH_DATA_URL);
     }
 
-    getKEY(){
+    getKEYstore(){
+        return axios.get(STORE_DATA_URL);
+    }
+
+    getKEYfetch(){
+        return axios.post(FETCH_DATA_URL);
+    }
+
+    getData(){
         return axios.get(STORE_DATA_URL);
     }
 }
+
+export default new ipfsapi()

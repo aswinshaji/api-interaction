@@ -6,6 +6,7 @@
 
 <script>
 import HelloWorld from './components/HelloWorld.vue'
+import axios from "axios"
 
 export default {
   name: 'App',
@@ -16,12 +17,15 @@ export default {
       posts:[]
     }
   },
-  created(){
-    fetch('https://jsonplaceholder.typicode.com/users')
-  .then(response => response.json())
-  .then(json => {
-    this.posts = json;
-  })
+  getCID(){
+    axios
+     .get('http://localhost:1323')
+     .then(response => {
+       console.log(response.data)
+     })
+     .catch(error => {
+       console.log('There was an error:' + error.response)
+     })
   },
   components: {
     HelloWorld
