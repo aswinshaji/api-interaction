@@ -1,26 +1,34 @@
 <template>
+<header>
+  <h1>Encryption Key</h1>
+  <input type="text" placeholder="Key" v-model="key">
+  <br>
+  <br>
   <b-container>
     <b-row align-v="center">
+      <!-- <form v-on:submit.prevent="getPosts"> -->
       <b-col>
         <b-card
-        title="Encryption">
+        title="Storing">
           <b-card-text>Encrypt and store data</b-card-text>
-          <input type="text" class="form-control" placeholder="Data" id="1">
-          <input type="text" class="form-control" placeholder="Key" id="2">
-          <b-button variant="primary" @click="addPosts">Submit</b-button>
+          <input type="text" class="form-control" placeholder="Data" v-model="data">
+          <b-button variant="primary" @click="addPosts">Store</b-button>
         </b-card>
       </b-col>
       <b-col>
         <b-card
         title="Fetching">
           <b-card-text>Get data from IPFS</b-card-text>
-          <input type="text" class="form-control" placeholder="CID" id="3">
-          <input type="text" class="form-control" placeholder="Key" id="4">
-          <b-button variant="primary" @click="getPosts">Submit</b-button>
+          <input type="text" class="form-control" placeholder="CID" v-model="cid">
+          <!-- <input type="text" class="form-control" placeholder="Key" v-model="key_1"> -->
+          <!-- <button class="btn btn-primary">Submit</button> -->
+          <b-button variant="primary" @click="getPosts">Fetch</b-button>
         </b-card>
       </b-col>
+      <!-- </form> -->
     </b-row>
   </b-container>
+</header>
 </template>
 
 <script>
@@ -32,33 +40,41 @@ export default {
   },
   data(){
     return {
-      formData: {
-        data: 'TXkgbmFtZSBpcyBBc3dpbg==',
-        key: 'example key 1234',
-      },
-      formData2: {
-        cid: 'QmNkQCdCm2wLsmpCP4itv6bxTuTdPBTzNXGHSbMaLG9fGw',
-        key: 'example key 1234',
-      },
+      
+        data: '',
+        key: '',
+        cid: '',
+      
     }
   },methods: {
     getPosts(){
       // Code to fetch the data from textbox and update into formData2
+      console.log('CID: ', this.cid)
+      console.log('Key: ', this.key)
+      console.log('CID: ', this.cid)
       axios
-        .post('http://localhost:1323/get', this.formData2)
+        .post('http://localhost:1323/get', {
+          cid: this.cid,
+          key: this.key,
+
+          })
         .then((response) => {
           console.log(response.data)
           this.posts = response.data
         })
         .catch((error) => {
           console.log(error)
+          this.$msg('Hello')
         })
     },
     addPosts(){
       // Code to fetch the data from textbox and update into formData
-      axios.post('http://localhost:1323/add', this.formData)
+      axios.post('http://localhost:1323/add', {
+        data: this.data,
+        key: this.key
+      })
         .then(response => console.log(response))
-        .catch(error => console.log(error))
+        .catch(error => console.log(error))  
     }
   }
 }
